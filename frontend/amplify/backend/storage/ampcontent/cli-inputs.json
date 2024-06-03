@@ -1,0 +1,14 @@
+{
+  "resourceName": "ampcontent",
+  "policyUUID": "8075fadc",
+  "bucketName": "frontendd0df5e2d3e4940c280c64d3dc1775e1d",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Triggera33e03ba",
+  "groupAccess": {}
+}

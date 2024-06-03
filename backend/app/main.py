@@ -10,6 +10,7 @@ from app.repositories.common import (
     ResourceConflictError,
 )
 from app.routes.admin import router as admin_router
+from app.routes.integrations import router as integrations_router
 from app.routes.api_publication import router as api_publication_router
 from app.routes.bot import router as bot_router
 from app.routes.conversation import router as conversation_router
@@ -40,7 +41,7 @@ if not is_published_api:
         {"name": "api_publication", "description": "API Publication API"},
         {"name": "admin", "description": "Admin API"},
     ]
-    title = "Bedrock Claude Chat"
+    title = "BSuite Claude Chat"
 else:
     openapi_tags = [{"name": "published_api", "description": "Published API"}]
     title = "Bedrock Claude Chat Published API"
@@ -57,6 +58,7 @@ if not is_published_api:
     app.include_router(bot_router)
     app.include_router(api_publication_router)
     app.include_router(admin_router)
+    app.include_router(integrations_router)
 else:
     app.include_router(published_api_router)
 

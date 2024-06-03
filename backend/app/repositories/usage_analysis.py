@@ -21,12 +21,14 @@ USAGE_ANALYSIS_WORKGROUP = os.environ.get(
 USAGE_ANALYSIS_OUTPUT_LOCATION = os.environ.get(
     "USAGE_ANALYSIS_OUTPUT_LOCATION", "s3://bedrockchatstack-athena-results"
 )
-USER_POOL_ID = os.environ.get("USER_POOL_ID", "us-east-1_XXXXXXXXX")
+USER_POOL_ID = os.environ.get("USER_POOL_ID", "us-east-1_dXzZyqXDu")
 QUERY_LIMIT = 1000
 
 
 logger = logging.getLogger(__name__)
 athena = boto3.client("athena")
+region_name = os.getenv('AWS_REGION', 'us-east-1')
+athena = boto3.client("athena", region_name=region_name)
 
 
 def _find_cognito_user_by_id(user_id: str) -> dict | None:

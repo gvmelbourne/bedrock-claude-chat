@@ -1,6 +1,8 @@
 import logging
 import os
 
+from .jira_integration import get_jira_issues
+from .confluence_integration import get_confluence_pages
 from app.config import DEFAULT_EMBEDDING_CONFIG
 from app.config import DEFAULT_GENERATION_CONFIG as DEFAULT_CLAUDE_GENERATION_CONFIG
 from app.config import DEFAULT_MISTRAL_GENERATION_CONFIG, DEFAULT_SEARCH_CONFIG
@@ -572,3 +574,61 @@ def remove_uploaded_file(user_id: str, bot_id: str, filename: str):
         DOCUMENT_BUCKET, compose_upload_temp_s3_path(user_id, bot_id, filename)
     )
     return
+
+    # Function to get Jira issues
+def get_jira_issues(jira_url, jira_token, project_key):
+    headers = {
+        "Authorization": f"Bearer {jira_token}",
+        "Content-Type": "application/json"
+    }
+    response = requests.get(f"{jira_url}/rest/api/2/search?jql=project={project_key}", headers=headers)
+    return response.json()
+
+# Function to handle Jira request
+def handle_jira_request(data):
+    jira_url = data['jira_url']
+    jira_token = data['jira_token']
+    project_key = data['project_key']
+    return get_jira_issues(jira_url, jira_token, project_key)
+
+# Function to get Confluence pages
+def get_confluence_pages(confluence_url, confluence_token, space_key):
+    headers = {
+        "Authorization": f"Bearer {confluence_token}",
+        "Content-Type": "application/json"
+    }
+    response = requests.get(f"{confluence_url}/rest/api/space/{space_key}/content", headers=headers)
+    return response.json()
+
+# Function to handle Confluence request
+def handle_confluence_request(data):
+    confluence_url = data['confluence_url']
+    confluence_token = data['confluence_token']
+    space_key = data['space_key']
+    return get_confluence_pages(confluence_url, confluence_token, space_key)
+
+# Function to get warehouse details
+def get_warehouse_details(api_url, api_key):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    response = requests.get(api_url, headers=headers)
+    return response.json()
+
+# Function to handle warehouse request
+def handle_warehouse_request(data):
+    api_url = data['api_url']
+    api_key = data['api_key']
+    return get_warehouse_details(api_url, api_key)
+
+# Main bot handler function (existing logic)
+def handle_bot_request(request_type, data):
+    if request_type == 'jira':
+        return handle_jira_request(data)
+    elif request_type == 'confluence':
+        return handle_confluence_request(data)
+    elif request_type == 'warehouse':
+        return handle_warehouse_request(data)
+    else:
+        return {"error": "Invalid request type"}
