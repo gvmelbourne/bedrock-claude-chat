@@ -57,7 +57,7 @@
     "@aws-cdk/core:includePrefixInUniqueNameGeneration": true,
     "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": true,
     "enableMistral": false,
-    "bedrockRegion": "us-east-1",
+    "bedrockRegion": "us-west-2",
     "allowedIpV4AddressRanges": [
       "0.0.0.0/1",
       "128.0.0.0/1"
